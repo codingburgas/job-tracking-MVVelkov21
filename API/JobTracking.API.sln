@@ -5,6 +5,12 @@ VisualStudioVersion = 17.13.35825.156 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobTracking.API", "JobTracking.API\JobTracking.API.csproj", "{45A987C2-D7F7-4918-BF09-AFD9082D55D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobTracking.Application", "JobTracking.Application\JobTracking.Application.csproj", "{B94D6C42-E087-4A05-8F6E-6B16B6F769A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobTracking.DataAccess", "JobTracking.DataAccess\JobTracking.DataAccess.csproj", "{9A083B3B-319D-4792-A72B-5E69652EA223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobTracking.Domain", "JobTracking.Domain\JobTracking.Domain.csproj", "{8D893226-FEC3-4BC3-9FAE-E273E3E77458}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{45A987C2-D7F7-4918-BF09-AFD9082D55D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45A987C2-D7F7-4918-BF09-AFD9082D55D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45A987C2-D7F7-4918-BF09-AFD9082D55D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B94D6C42-E087-4A05-8F6E-6B16B6F769A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B94D6C42-E087-4A05-8F6E-6B16B6F769A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B94D6C42-E087-4A05-8F6E-6B16B6F769A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B94D6C42-E087-4A05-8F6E-6B16B6F769A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A083B3B-319D-4792-A72B-5E69652EA223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A083B3B-319D-4792-A72B-5E69652EA223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A083B3B-319D-4792-A72B-5E69652EA223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A083B3B-319D-4792-A72B-5E69652EA223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D893226-FEC3-4BC3-9FAE-E273E3E77458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D893226-FEC3-4BC3-9FAE-E273E3E77458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D893226-FEC3-4BC3-9FAE-E273E3E77458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D893226-FEC3-4BC3-9FAE-E273E3E77458}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
