@@ -1,6 +1,10 @@
-
 namespace JobTracking.API
 {
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.AspNetCore.Authentication.JwtBearer; // Required for JwtBearerDefaults
+
     public class Program
     {
         public static void Main(string[] args)
@@ -8,15 +12,7 @@ namespace JobTracking.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.AddContext();
-            builder.AddIdentity();
-            builder.AddCors();
-            builder.AddServices();
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddJobTrackingServices(builder.Configuration);
 
             var app = builder.Build();
 
@@ -29,8 +25,8 @@ namespace JobTracking.API
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication(); // Must be before UseAuthorization
             app.UseAuthorization();
-
 
             app.MapControllers();
 

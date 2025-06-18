@@ -2,8 +2,9 @@
 {
     public static class Jwt
     {
-        public static string Key => $"{nameof(Jwt)}:{nameof(Key)}";
-        public static string Issuer => $"{nameof(Jwt)}:{nameof(Issuer)}";
-        public static string Audience => $"{nameof(Jwt)}:{nameof(Audience)}";
+        public const string Issuer = "JobTrackingApi";
+        public const string Audience = "JobTrackingClients";
+        public const string Key = "THIS_IS_A_VERY_STRONG_SECRET_KEY_FOR_JWT_SIGNING_DONT_USE_IN_PROD";
+        public const int TokenExpirationMinutes = 60;
     }
 }
