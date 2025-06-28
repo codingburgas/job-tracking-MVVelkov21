@@ -2,7 +2,7 @@
 {
     public enum UserRole
     {
-        User, // Regular job seeker
-        Admin // Administrator (HR specialist)
+        User, 
+        Admin 
     }
 }

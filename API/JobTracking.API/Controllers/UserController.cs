@@ -31,7 +31,7 @@
             }
             catch (InvalidOperationException ex)
             {
-                return Conflict(new { message = ex.Message }); // Username already exists
+                return Conflict(new { message = ex.Message });
             }
             catch (Exception ex)
             {
@@ -58,7 +58,7 @@
         }
 
         [HttpGet("profile")]
-        [Authorize(Policy = "UserPolicy")] // Both users and admins can access their own profile
+        [Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> GetUserProfile()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

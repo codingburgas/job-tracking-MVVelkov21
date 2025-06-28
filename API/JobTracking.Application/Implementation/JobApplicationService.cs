@@ -26,21 +26,18 @@
 
         public async Task<JobApplicationResponse> ApplyForJobAsync(Guid userId, ApplyForJobRequest request)
         {
-            // Validate JobPosting exists and is active
             var jobPosting = await _jobPostingRepository.GetByIdAsync(request.JobPostingId);
             if (jobPosting == null || jobPosting.Status != JobPostingStatus.Active)
             {
                 throw new InvalidOperationException("Job posting not found or not active.");
             }
-
-            // Validate User exists
+            
             var user = await _userRepository.GetByIdAsync(userId);
-            if (user == null || user.Role == UserRole.Admin) // Admins cannot apply
+            if (user == null || user.Role == UserRole.Admin)
             {
                 throw new UnauthorizedAccessException("User not found or not authorized to apply.");
             }
-
-            // Check if user has already applied for this specific job posting
+            
             var existingApplication = (await _applicationRepository.FindAsync(
                 ja => ja.UserId == userId && ja.JobPostingId == request.JobPostingId
             )).FirstOrDefault();
@@ -55,7 +52,7 @@
                 Id = Guid.NewGuid(),
                 UserId = userId,
                 JobPostingId = request.JobPostingId,
-                Status = ApplicationStatus.Submitted, // Default status
+                Status = ApplicationStatus.Submitted,
                 ApplicationDate = DateTime.UtcNow
             };
 
@@ -93,8 +90,7 @@
             {
                 throw new KeyNotFoundException($"Application with ID {applicationId} not found.");
             }
-
-            // Ensure the requested status is a valid enum value
+            
             if (!Enum.IsDefined(typeof(ApplicationStatus), request.NewStatus))
             {
                 throw new ArgumentException("Invalid application status provided.");
@@ -116,7 +112,6 @@
 
         public async Task<IEnumerable<JobApplicationResponse>> GetAllApplicationsForJobPostingAsync(Guid jobPostingId)
         {
-            // This method is for administrators to see all applications for a given job posting
             var applications = await _applicationRepository.FindAsync(ja => ja.JobPostingId == jobPostingId);
 
             return applications.Select(ja => new JobApplicationResponse

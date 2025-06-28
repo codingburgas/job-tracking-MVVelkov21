@@ -5,7 +5,8 @@
     using JobTracking.Application.DTOs.Request;
     using JobTracking.Domain.Filters;
     using Microsoft.AspNetCore.Authorization;
-    using System.Security.Claims; // For accessing user roles
+    using System.Security.Claims;
+    using JobTracking.Domain.Enums;
 
     [ApiController]
     [Route("api/[controller]")]
@@ -19,7 +20,7 @@
         }
 
         [HttpPost]
-        [Authorize(Policy = "AdminPolicy")] // Only Admins can create job postings
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> CreateJobPosting([FromBody] CreateJobPostingRequest request)
         {
             try
@@ -38,7 +39,7 @@
         }
 
         [HttpPut("{id}")]
-        [Authorize(Policy = "AdminPolicy")] // Only Admins can update job postings
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> UpdateJobPosting(Guid id, [FromBody] UpdateJobPostingRequest request)
         {
             try
@@ -61,7 +62,7 @@
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Policy = "AdminPolicy")] // Only Admins can delete job postings
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> DeleteJobPosting(Guid id)
         {
             try
@@ -71,7 +72,7 @@
                 {
                     return NotFound(new { message = $"Job posting with ID {id} not found." });
                 }
-                return NoContent(); // 204 No Content for successful deletion
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -80,9 +81,29 @@
         }
 
         [HttpGet]
-        [Authorize(Policy = "UserPolicy")] // Both users and admins can view job postings
-        public async Task<IActionResult> GetAllJobPostings([FromQuery] JobPostingFilter filter)
+        [Authorize(Policy = "UserPolicy")]
+        public async Task<IActionResult> GetAllJobPostings([FromQuery] string? status, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
+            JobPostingStatus? statusFilter = null;
+            if (!string.IsNullOrEmpty(status))
+            {
+                if (Enum.TryParse(typeof(JobPostingStatus), status, true, out var parsedStatus))
+                {
+                    statusFilter = (JobPostingStatus)parsedStatus;
+                }
+                else
+                {
+                    return BadRequest(new { message = $"Invalid status value: '{status}'. Valid values are 'Active' or 'Inactive'." });
+                }
+            }
+
+            var filter = new JobPostingFilter
+            {
+                Status = statusFilter,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
             try
             {
                 var jobPostings = await _jobPostingService.GetAllJobPostingsAsync(filter);
@@ -95,7 +116,7 @@
         }
 
         [HttpGet("{id}")]
-        [Authorize(Policy = "UserPolicy")] // Both users and admins can view a specific job posting
+        [Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> GetJobPostingById(Guid id)
         {
             try

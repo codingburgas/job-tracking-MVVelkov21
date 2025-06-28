@@ -15,15 +15,14 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            // Configure User entity
+            
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                entity.HasIndex(e => e.Username).IsUnique(); // Username must be unique
+                entity.HasIndex(e => e.Username).IsUnique();
                 entity.Property(e => e.Role)
-                      .HasConversion<string>() // Store enum as string
-                      .HasMaxLength(10); // Adjust length as needed
+                      .HasConversion<string>()
+                      .HasMaxLength(10);
             });
 
             // Configure JobPosting entity
@@ -31,30 +30,27 @@
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Status)
-                      .HasConversion<string>() // Store enum as string
-                      .HasMaxLength(10); // Adjust length as needed
+                      .HasConversion<string>()
+                      .HasMaxLength(10);
             });
-
-            // Configure JobApplication entity
+            
             modelBuilder.Entity<JobApplication>(entity =>
             {
                 entity.HasKey(e => e.Id);
-                // Composite unique index to ensure a user can only apply once to a specific job
                 entity.HasIndex(e => new { e.UserId, e.JobPostingId }).IsUnique();
                 entity.Property(e => e.Status)
-                      .HasConversion<string>() // Store enum as string
-                      .HasMaxLength(20); // Adjust length as needed
-
-                // Define relationships
+                      .HasConversion<string>()
+                      .HasMaxLength(20);
+                
                 entity.HasOne(ja => ja.User)
                       .WithMany()
                       .HasForeignKey(ja => ja.UserId)
-                      .OnDelete(DeleteBehavior.Restrict); // Prevent cascading delete on user deletion
+                      .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(ja => ja.JobPosting)
                       .WithMany()
                       .HasForeignKey(ja => ja.JobPostingId)
-                      .OnDelete(DeleteBehavior.Cascade); // Delete applications if job posting is deleted
+                      .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

@@ -24,13 +24,11 @@
 
         public async Task<UserResponse> RegisterUserAsync(UserRegistrationRequest request)
         {
-            // Basic validation
             if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
             {
                 throw new ArgumentException("Username and password are required.");
             }
-
-            // Check if username already exists
+            
             var existingUser = (await _userRepository.FindAsync(u => u.Username == request.Username)).FirstOrDefault();
             if (existingUser != null)
             {
@@ -43,8 +41,8 @@
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Username = request.Username,
-                PasswordHash = BCrypt.HashPassword(request.Password), // Hash the password
-                Role = UserRole.User // Default role for registration
+                PasswordHash = BCrypt.HashPassword(request.Password),
+                Role = UserRole.User
             };
 
             await _userRepository.AddAsync(user);

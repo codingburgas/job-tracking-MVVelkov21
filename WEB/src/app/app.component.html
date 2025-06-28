@@ -1,3 +1,53 @@
-<div class="alert alert-primary" role="alert">
-  A simple primary alert—check it out!
+<div class="flex flex-col min-h-screen bg-gray-100 font-sans antialiased text-gray-800">
+  <nav class="bg-indigo-700 p-4 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+      <a routerLink="/" class="text-white text-2xl font-bold rounded-md px-3 py-1 hover:bg-indigo-600 transition-colors">
+        JobTrack
+      </a>
+      <div class="flex items-center space-x-4">
+        <a routerLink="/jobs"
+           class="text-white hover:text-indigo-200 px-3 py-1 rounded-md hover:bg-indigo-600 transition-colors">
+          Job Listings
+        </a>
+
+        <ng-container *ngIf="authService.isLoggedIn()">
+          <a routerLink="/my-applications"
+             class="text-white hover:text-indigo-200 px-3 py-1 rounded-md hover:bg-indigo-600 transition-colors">
+            My Applications
+          </a>
+          <a *ngIf="authService.isAdmin()" routerLink="/admin"
+             class="text-white hover:text-indigo-200 px-3 py-1 rounded-md bg-indigo-500 hover:bg-indigo-600 transition-colors">
+            Admin Dashboard
+          </a>
+          <span class="text-indigo-200 px-3 py-1 rounded-md">
+            Hello, {{ currentUser?.username }} ({{ currentUser?.role }})
+          </span>
+          <button (click)="logout()"
+                  class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded-md transition-colors">
+            Logout
+          </button>
+        </ng-container>
+
+        <ng-container *ngIf="!authService.isLoggedIn()">
+          <a routerLink="/login"
+             class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-1 px-3 rounded-md transition-colors">
+            Login
+          </a>
+        </ng-container>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-grow">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="bg-gray-800 text-white p-6 text-center shadow-inner mt-auto">
+    <p>&copy; 2024 JobTrack. All rights reserved.</p>
+    <p class="text-sm text-gray-400 mt-2">
+      Built with Angular & Tailwind CSS for Modern Job Tracking.
+    </p>
+  </footer>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/lucide-react/dist/umd/lucide-react.min.js"></script>

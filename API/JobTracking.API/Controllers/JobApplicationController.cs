@@ -12,7 +12,7 @@
     public class JobApplicationController : ControllerBase
     {
         private readonly IJobApplicationService _jobApplicationService;
-        private readonly IUserService _userService; // To check user role
+        private readonly IUserService _userService;
 
         public JobApplicationController(IJobApplicationService jobApplicationService, IUserService userService)
         {
@@ -21,8 +21,8 @@
         }
 
         [HttpPost("apply")]
-        [Authorize(Policy = "UserPolicy")] // Only regular users can apply, but admin can also access this route to see the logic.
-                                           // The service layer will further restrict admins from applying.
+        [Authorize(Policy = "UserPolicy")]
+        
         public async Task<IActionResult> ApplyForJob([FromBody] ApplyForJobRequest request)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -30,8 +30,7 @@
             {
                 return Unauthorized(new { message = "Invalid user ID." });
             }
-
-            // Additional check in controller for admin role for clarity, though service handles it
+            
             if (User.IsInRole(UserRole.Admin.ToString()))
             {
                 return Forbid("Administrators cannot submit job applications.");
@@ -61,7 +60,7 @@
         }
 
         [HttpGet("my-applications")]
-        [Authorize(Policy = "UserPolicy")] // Users can see their own applications, admins can also access.
+        [Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> GetMyApplications()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -82,7 +81,7 @@
         }
 
         [HttpPatch("{applicationId}/status")]
-        [Authorize(Policy = "AdminPolicy")] // Only Admins can update application status
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> UpdateApplicationStatus(Guid applicationId, [FromBody] UpdateApplicationStatusRequest request)
         {
             try
@@ -105,7 +104,7 @@
         }
 
         [HttpGet("job/{jobPostingId}")]
-        [Authorize(Policy = "AdminPolicy")] // Only Admins can view all applications for a specific job
+        [Authorize(Policy = "AdminPolicy")]
         public async Task<IActionResult> GetAllApplicationsForJobPosting(Guid jobPostingId)
         {
             try
@@ -120,7 +119,7 @@
         }
 
         [HttpGet("{applicationId}")]
-        [Authorize(Policy = "UserPolicy")] // Both users and admins can view a specific application
+        [Authorize(Policy = "UserPolicy")]
         public async Task<IActionResult> GetJobApplicationById(Guid applicationId)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -136,8 +135,7 @@
                 {
                     return NotFound(new { message = $"Application with ID {applicationId} not found." });
                 }
-
-                // If user is not admin, ensure they only access their own applications
+                
                 if (!User.IsInRole(UserRole.Admin.ToString()) && application.UserId != currentUserId)
                 {
                     return Forbid("You do not have access to this application.");

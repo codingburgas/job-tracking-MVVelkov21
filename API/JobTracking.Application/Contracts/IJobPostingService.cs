@@ -14,8 +14,7 @@
         Task<JobPostingResponse> GetJobPostingByIdAsync(Guid id);
         Task<IEnumerable<JobPostingResponse>> GetActiveJobPostingsAsync(JobPostingFilter filter);
     }
-
-    // JobTracking.Domain/Filters/JobPostingFilter.cs (New Filter specific to job postings)
+    
     public class JobPostingFilter : BaseFilter
     {
         public string SearchTerm { get; set; }

@@ -9,8 +9,7 @@
         public Guid JobPostingId { get; set; }
         public ApplicationStatus Status { get; set; } = ApplicationStatus.Submitted;
         public DateTime ApplicationDate { get; set; } = DateTime.UtcNow;
-
-        // Navigation properties (if using ORM like Entity Framework Core)
+        
         public User User { get; set; }
         public JobPosting JobPosting { get; set; }
     }

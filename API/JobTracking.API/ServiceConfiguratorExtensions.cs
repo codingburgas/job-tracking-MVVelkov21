@@ -11,26 +11,22 @@
     using Microsoft.IdentityModel.Tokens;
     using System.Text;
     using JobTracking.Domain.Constants;
-    using JobTracking.Domain.Entities; // Needed for generic repository registration
+    using JobTracking.Domain.Entities;
 
     public static class ServiceConfiguratorExtensions
     {
         public static void AddJobTrackingServices(this IServiceCollection services, IConfiguration configuration)
         {
-            // Configure DbContext
             services.AddDbContext<AppDbContext>(options =>
                     options.UseSqlite("Data Source=JobTracking.db")
             );
-
-            // Register Repositories
+            
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
-            // Register Application Services
+            
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IJobPostingService, JobPostingService>();
             services.AddScoped<IJobApplicationService, JobApplicationService>();
-
-            // Configure JWT Authentication
+            
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

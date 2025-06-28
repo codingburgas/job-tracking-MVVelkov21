@@ -1,0 +1,27 @@
+<div class="min-h-screen flex flex-col items-center bg-gray-100 p-4 pt-10">
+  <div class="max-w-4xl w-full bg-white rounded-lg shadow-xl p-8 text-center">
+    <h2 class="text-4xl font-extrabold text-gray-900 mb-8">Admin Dashboard</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-indigo-50 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
+        <h3 class="text-2xl font-bold text-indigo-800 mb-4">Create New Job Posting</h3>
+        <p class="text-gray-700 mb-6">Publish new opportunities for job seekers.</p>
+        <a routerLink="/admin/create-job"
+           class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
+          Create Job
+        </a>
+      </div>
+
+      <div class="bg-green-50 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300">
+        <h3 class="text-2xl font-bold text-green-800 mb-4">Manage Applications</h3>
+        <p class="text-gray-700 mb-6">Review and update the status of submitted job applications.</p>
+        <a routerLink="/admin/manage-applications"
+           class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          Manage Apps
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,7 +19,6 @@
 
         public async Task<JobPostingResponse> CreateJobPostingAsync(CreateJobPostingRequest request)
         {
-            // Basic validation
             if (string.IsNullOrWhiteSpace(request.Title) || string.IsNullOrWhiteSpace(request.CompanyName) || string.IsNullOrWhiteSpace(request.Description))
             {
                 throw new ArgumentException("Title, company name, and description are required.");
@@ -32,7 +31,7 @@
                 CompanyName = request.CompanyName,
                 Description = request.Description,
                 PublicationDate = DateTime.UtcNow,
-                Status = JobPostingStatus.Active // New job postings are active by default
+                Status = JobPostingStatus.Active
             };
 
             await _jobPostingRepository.AddAsync(jobPosting);
@@ -56,8 +55,7 @@
             {
                 throw new KeyNotFoundException($"Job posting with ID {id} not found.");
             }
-
-            // Apply updates
+            
             if (!string.IsNullOrWhiteSpace(request.Title)) jobPosting.Title = request.Title;
             if (!string.IsNullOrWhiteSpace(request.CompanyName)) jobPosting.CompanyName = request.CompanyName;
             if (!string.IsNullOrWhiteSpace(request.Description)) jobPosting.Description = request.Description;
@@ -105,8 +103,7 @@
             {
                 query = query.Where(jp => jp.Status == filter.Status.Value);
             }
-
-            // Apply pagination (in-memory for simplicity, normally done in DB for performance)
+            
             query = query.Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize);
 
             return query.Select(jp => new JobPostingResponse
@@ -140,7 +137,6 @@
 
         public async Task<IEnumerable<JobPostingResponse>> GetActiveJobPostingsAsync(JobPostingFilter filter)
         {
-            // Filter to only active postings
             filter.Status = JobPostingStatus.Active;
             return await GetAllJobPostingsAsync(filter);
         }
